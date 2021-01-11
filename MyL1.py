@@ -1,1 +1,2 @@
 p = "fdsf"
+print(p)
