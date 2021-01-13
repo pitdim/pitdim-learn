@@ -1,11 +1,9 @@
-print("Hello world")
+def GoToNewStep(a):
+    b = 0
+    for i in range(0, 10000):
+        b += a ** i
 
-TT = []
-print(TT)
+    return b
 
-# Все окей
-
-TT = 0
-
-for f in range(100):
-    print(f)
+n = GoToNewStep(199)
+print(n)
