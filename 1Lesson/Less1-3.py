@@ -1,7 +1,8 @@
 from time import time
-
+import functools
 
 def decorator_time(func):
+    @functools.wraps(func)
     def wrapper(arg):
         start_time = time()
         return_func = func(arg)
@@ -21,3 +22,5 @@ def go_to_new_step(a):
 
 n = go_to_new_step(199)
 print(n)
+
+print(go_to_new_step.__name__)
