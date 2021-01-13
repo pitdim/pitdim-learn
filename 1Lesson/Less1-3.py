@@ -1,25 +1,23 @@
 from time import time
 
-def DecoratoTime(func):
+
+def decorator_time(func):
     def wrapper(arg):
-        Start_Time = time()
-        Stap = func(arg)
-        Finish_Time = time()
-        print("Выполнялось в секундах", Finish_Time - Start_Time)
-        return Stap
+        start_time = time()
+        return_func = func(arg)
+        finish_time = time()
+        print("Выполнялось в секундах", finish_time - start_time)
+        return return_func
     return wrapper
 
 
-@DecoratoTime
-def GoToNewStep(a):
+@decorator_time
+def go_to_new_step(a):
     b = 0
     for i in range(0, 10000):
         b += a ** i
     return b
 
 
-n = GoToNewStep(199)
+n = go_to_new_step(199)
 print(n)
-
-
-
