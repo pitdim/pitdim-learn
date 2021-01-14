@@ -1,11 +1,12 @@
 from time import time
 import functools
 
+
 def decorator_time(func):
     @functools.wraps(func)
-    def wrapper(arg):
+    def wrapper(*arg):
         start_time = time()
-        return_func = func(arg)
+        return_func = func(*arg)
         finish_time = time()
         print("Выполнялось в секундах", finish_time - start_time)
         return return_func
@@ -20,7 +21,13 @@ def go_to_new_step(a):
     return b
 
 
-n = go_to_new_step(199)
-print(n)
+def hello(q, w):
+    print("Привет", q, w)
+
+
+#n = go_to_new_step(199)
+#print(n)
 
 print(go_to_new_step.__name__)
+
+hello("Вася", "Питерский")
