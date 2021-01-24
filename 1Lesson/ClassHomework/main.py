@@ -7,15 +7,20 @@ class Means_of_transportation():
 
     def PlaySound(self):
         print("транспорт издал звук:", self.sound)
+
+
 class Car(Means_of_transportation):
-    def __init__(self, wheel):
+
+    def __init__(self, wheel, l_oil):
+        super().__init__(l_oil)
         self.wheel = wheel
-        self.l_oil = l_oil
+
+
 class LegkovoyCar(Car):
     sound = "вррр..."
     def __init__(self, wheel,l_oil, speed):
+        super().__init__(wheel, l_oil)
         self.wheel = wheel
-        self.l_oil = l_oil
         self.speed = speed
 
     def StartCar(self):
@@ -54,6 +59,8 @@ class Motor_boat(Boat):
             exit(0)
         else:
             print("началось движение....")
+
+
 class Samolet(Means_of_transportation):
     pass
 class PassagirniySamolet(Samolet):
