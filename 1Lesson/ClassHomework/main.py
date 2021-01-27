@@ -1,104 +1,83 @@
-class Means_of_transportation():
+"""
+Задача 3
+Отсортируйте словарь по значению в порядке возрастания и убывания.
 
-    sound = "пиу пиу"
+Задача 4
+Напишите программу для слияния нескольких словарей в один.
 
-    def __init__(self, l_oil):
-        self.l_oil = l_oil
+Задача 5
+Найдите три ключа с самыми высокими значениями в словаре my_dict = {'a':500, 'b':5874, 'c': 560,'d':400, 'e':5874, 'f': 20}.
 
-    def PlaySound(self):
-        print("транспорт издал звук:", self.sound)
-class Car(Means_of_transportation):
-    def __init__(self, wheel):
-        self.wheel = wheel
-        self.l_oil = l_oil
-class LegkovoyCar(Car):
-    sound = "вррр..."
-    def __init__(self, wheel,l_oil, speed):
-        self.wheel = wheel
-        self.l_oil = l_oil
-        self.speed = speed
+Задача 6
+Напишите код, который переводит целое число в строку, при том что его можно применить в любой системе счисления.
 
-    def StartCar(self):
-        if self.l_oil <= 0:
-            raise ValueError("Топлива нет, не получилось начать движение.")
-        if self.wheel < 4:
-            raise ValueError("Вы дали машине мало колес, не хватает КОЛЕС!!")
-            exit(0)
-        if self.speed <= 0:
-            raise ValueError("Ваша машина не тронется с мизерной скоростью...")
-            exit(0)
-        else:
-            print("началось движение....")
+Задача 7
+Нужно вывести первые n строк треугольника Паскаля. В этом треугольнике на вершине и по бокам стоят единицы, а каждое число внутри равно сумме двух расположенных над ним чисел.
 
+Задача 8
+Напишите проверку на то, является ли строка палиндромом. Палиндром — это слово или фраза, которые одинаково читаются слева направо и справа налево.
 
-    def PlaySound(self):
-        print("Машина издала звук:", self.sound)
-class Boat(Means_of_transportation):
-    pass
-class Motor_boat(Boat):
-    sound = "бульк бульк"
-    go_on_water = True
-    def __init__(self, oil, speed, go_on_water):
-        self.oil = oil
-        self.speed = speed
-        self.go_on_water = go_on_water
-    def StartMotorBoat(self):
-        if self.go_on_water != True:
-            raise ValueError("Вы указали то что лодка не ходит по воде :З , не получилось начать движение.")
-            exit(0)
-        if self.oil <= 0:
-            raise ValueError("Топлива нет , не получилось начать движение.")
-            exit(0)
-        if self.speed <= 0:
-            raise ValueError("Ваша лодка не тронется с мизерной скоростью...")
-            exit(0)
-        else:
-            print("началось движение....")
-class Samolet(Means_of_transportation):
-    pass
-class PassagirniySamolet(Samolet):
-    sound = "фью фью..."
-    motor = True
-    def __init__(self, s_oil, speed, motor):
-        self.s_oil = s_oil
-        self.speed = speed
-        self.motor = motor
+Задача 9
+Сделайте так, чтобы число секунд отображалось в виде дни:часы:минуты:секунды.
 
-    def StartPassagirsliySamolet(self):
-        if self.motor != True:
-            raise ValueError("Мотора нет :( , не получилось начать движение.")
-            exit(0)
-        if self.s_oil <= 0:
-            raise ValueError("Топлива нет, не получилось начать движение.")
-            exit(0)
-        if self.speed <= 0:
-            raise ValueError("Ваш самолет не тронется с мизерной скоростью...")
-            exit(0)
-        else:
-            print("началось движение....")
+Задача 10
+Вы принимаете от пользователя последовательность чисел, разделённых запятой. Составьте список и кортеж с этими числами.
+
+Задача 11
+Выведите первый и последний элемент списка.
+
+Вариант решения
+Задача 12
+Напишите программу, которая принимает имя файла и выводит его расширение. Если расширение у файла определить невозможно, выбросите исключение.
+
+Вариант решения
+Задача 13
+При заданном целом числе n посчитайте n + nn + nnn.
+
+Вариант решения
+Задача 14
+Напишите программу, которая выводит чётные числа из заданного списка и останавливается, если встречает число 237.
+
+Вариант решения
+Задача 15
+Напишите программу, которая принимает два списка и выводит все элементы первого, которых нет во втором.
+
+Вариант решения
+Задача 16
+Выведите список файлов в указанной директории.
+
+Вариант решения
+Задача 17
+Сложите цифры целого числа.
+
+Вариант решения
+Задача 18
+Посчитайте, сколько раз символ встречается в строке.
+
+Вариант решения
+Задача 19
+Поменяйте значения переменных местами.
+
+Вариант решения
 
 
+Задача 20
+С помощью анонимной функции извлеките из списка числа, делимые на 15.
+
+Вариант решения
+Задача 21
+Нужно проверить, все ли числа в последовательности уникальны.
+
+Вариант решения
+Задача 22
+Напишите программу, которая принимает текст и выводит два слова: наиболее часто встречающееся и самое длинное.
+
+Вариант решения
+"""
+import operator
+
+a = {"1":2, "2":10, "3":7, "4":5}
+
+print(dict(sorted(a.items(), key=lambda a: a[1])))
 
 
-ExemplyarLegkovoyCar = LegkovoyCar(4, 100, 120)
-print("Скорость легковой машины равна", ExemplyarLegkovoyCar.speed,"км/ч")
-print("Количевство колес у легковой машины равно", ExemplyarLegkovoyCar.speed)
-print("Количевство топлива в баке легковой машины равна", ExemplyarLegkovoyCar.l_oil,"литров.")
-ExemplyarLegkovoyCar.PlaySound()
-ExemplyarLegkovoyCar.StartCar()
-
-print("--------" * 10)
-ExemplyarMotorBoat = Motor_boat(20, 60, True)
-print("Скорость моторной лодки равна", ExemplyarMotorBoat.speed,"км/ч")
-print("Количевство топлива в моторной лодке равно -", ExemplyarMotorBoat.oil,"литров.")
-print("Есть ли у нашей моторной лодки мотор? -", ExemplyarMotorBoat.go_on_water)
-ExemplyarMotorBoat.PlaySound()
-ExemplyarMotorBoat.StartMotorBoat()
-
-print("--------" * 10)
-ExemplyarPassagirskiySamolet = PassagirniySamolet(300, 500, True)
-print("Скорость пассажирскоо самолета равна", ExemplyarPassagirskiySamolet.speed,"км/ч")
-print("Количевство топлива в пассажирском самолете равно -", ExemplyarPassagirskiySamolet.s_oil,"литров.")
-print("Есть ли у нашего пассажирского самолета мотор? -", ExemplyarPassagirskiySamolet.motor)
-ExemplyarPassagirskiySamolet.PlaySound()
-ExemplyarPassagirskiySamolet.StartPassagirsliySamolet()
