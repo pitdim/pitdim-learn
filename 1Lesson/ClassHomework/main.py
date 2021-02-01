@@ -1,83 +1,93 @@
-"""
-Задача 3
-Отсортируйте словарь по значению в порядке возрастания и убывания.
+import configparser
+from tkinter import *
 
-Задача 4
-Напишите программу для слияния нескольких словарей в один.
+step = 1
+mass = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-Задача 5
-Найдите три ключа с самыми высокими значениями в словаре my_dict = {'a':500, 'b':5874, 'c': 560,'d':400, 'e':5874, 'f': 20}.
+def PutButton(Obj,Stroka, Stolb):
+    global step
 
-Задача 6
-Напишите код, который переводит целое число в строку, при том что его можно применить в любой системе счисления.
+    if step == 1:
+        if Obj["text"] == "":
+            Obj.config(text="х")
+            step = 0
 
-Задача 7
-Нужно вывести первые n строк треугольника Паскаля. В этом треугольнике на вершине и по бокам стоят единицы, а каждое число внутри равно сумме двух расположенных над ним чисел.
-
-Задача 8
-Напишите проверку на то, является ли строка палиндромом. Палиндром — это слово или фраза, которые одинаково читаются слева направо и справа налево.
-
-Задача 9
-Сделайте так, чтобы число секунд отображалось в виде дни:часы:минуты:секунды.
-
-Задача 10
-Вы принимаете от пользователя последовательность чисел, разделённых запятой. Составьте список и кортеж с этими числами.
-
-Задача 11
-Выведите первый и последний элемент списка.
-
-Вариант решения
-Задача 12
-Напишите программу, которая принимает имя файла и выводит его расширение. Если расширение у файла определить невозможно, выбросите исключение.
-
-Вариант решения
-Задача 13
-При заданном целом числе n посчитайте n + nn + nnn.
-
-Вариант решения
-Задача 14
-Напишите программу, которая выводит чётные числа из заданного списка и останавливается, если встречает число 237.
-
-Вариант решения
-Задача 15
-Напишите программу, которая принимает два списка и выводит все элементы первого, которых нет во втором.
-
-Вариант решения
-Задача 16
-Выведите список файлов в указанной директории.
-
-Вариант решения
-Задача 17
-Сложите цифры целого числа.
-
-Вариант решения
-Задача 18
-Посчитайте, сколько раз символ встречается в строке.
-
-Вариант решения
-Задача 19
-Поменяйте значения переменных местами.
-
-Вариант решения
+    elif step == 0:
+        if Obj["text"] == "":
+            Obj.config(text="о")
+            step = 1
 
 
-Задача 20
-С помощью анонимной функции извлеките из списка числа, делимые на 15.
+    mass[Stroka][Stolb] = Obj["text"]
 
-Вариант решения
-Задача 21
-Нужно проверить, все ли числа в последовательности уникальны.
+    for i in range(2):
+        if mass[i][0] == mass[i][1] and mass[i][0] == mass[i][2]:
+            print("выйграл", mass[i][0])
+        if mass[0][i] == mass[1][i] and mass[0][i] == mass[2][i]:
+            print("выйграл", mass[i][0])
 
-Вариант решения
-Задача 22
-Напишите программу, которая принимает текст и выводит два слова: наиболее часто встречающееся и самое длинное.
+    if mass[0][0] == mass[1][1] and mass[0][0] == mass[2][2]:
+        print("выйграл", mass[0][0])
+    if mass[0][2] == mass[1][1] and mass[0][2] == mass[2][0]:
+        print("выйграл", mass[0][2])
 
-Вариант решения
-"""
-import operator
 
-a = {"1":2, "2":10, "3":7, "4":5}
+def change_name(event):
+    with open("config.ini", "w") as f:
+        my_config = configparser.ConfigParser()
+        my_config["main"]["name"] = text2.get()
+        my_config.write(f)
 
-print(dict(sorted(a.items(), key=lambda a: a[1])))
+
+window = Tk()
+window.title("Window")
+window.geometry("800x600")
+
+my_config = configparser.ConfigParser()
+my_config.read("config.ini")
+
+try:
+    name_games = my_config["main"]["name"]
+
+    label = Label(window, text="Приветствую! " + name_games, font="Tahoma 19")
+    label.pack()
+except KeyError:
+    label = Label(window, text="Представься:", font="Tahoma 19")
+    label.pack()
+
+    text2 = Entry(window, font="Tahoma 20")
+    text2.place(x=300, y=50, width=800, height=33)
+    text2.bind('<Return>', change_name)
+
+
+button1 = Button(window, text="", command=lambda: PutButton(button1, 0, 0), font="Tahoma 60")
+button1.place(x=0, y=0, width=100, height=100)
+
+button2 = Button(window, text="", command=lambda: PutButton(button2, 0, 1), font="Tahoma 60")
+button2.place(x=100, y=0, width=100, height=100)
+
+button3 = Button(window, text="", command=lambda: PutButton(button3, 0, 2), font="Tahoma 60")
+button3.place(x=200, y=0, width=100, height=100)
+
+button4 = Button(window, text="", command=lambda: PutButton(button4, 1, 0), font="Tahoma 60")
+button4.place(x=0, y=100, width=100, height=100)
+
+button5 = Button(window, text="", command=lambda: PutButton(button5, 1, 1), font="Tahoma 60")
+button5.place(x=100, y=100, width=100, height=100)
+
+button6 = Button(window, text="", command=lambda: PutButton(button6, 1, 2), font="Tahoma 60")
+button6.place(x=200, y=100, width=100, height=100)
+
+button7 = Button(window, text="", command=lambda: PutButton(button7, 2, 0), font="Tahoma 60")
+button7.place(x=0, y=200, width=100, height=100)
+
+button8 = Button(window, text="", command=lambda: PutButton(button8, 2, 1), font="Tahoma 60")
+button8.place(x=100, y=200, width=100, height=100)
+
+button9 = Button(window, text="", command=lambda: PutButton(button9, 2, 2), font="Tahoma 60")
+button9.place(x=200, y=200, width=100, height=100)
+
+
+window.mainloop()
 
 
