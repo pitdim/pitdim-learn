@@ -7,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.exc import NoResultFound
 
+
 step = 1
 mass = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
@@ -64,14 +65,7 @@ def PutButton(Obj,Stroka, Stolb):
         win_or_not.place(x=50, y=325, width=200, height=33)
         reset_game()
 
-def change_name(event):
-    with open("config.ini", "w") as f:
-        my_config = configparser.ConfigParser()
-        my_config.add_section("main")
-        my_config.set("main", "name", text2.get())
-        my_config.write(f)
-
-def creat_able_base():
+def creat_table_base():
     meta = MetaData()
 
     students = Table(
@@ -95,15 +89,17 @@ class Player(base):
     def __repr__(self):
         return str(self)
 
-def creat_new_user(name):
-    player_data = Player(playername=name)
-    session.add(player_data)
-    session.commit()
-    return player_data
+# def creat_new_user(name):
+#     player_data = Player(playername=name)
+#     session.add(player_data)
+#     session.commit()
+#     return player_data
 
 def change_name(event):
     a = text2.get()
-    print(a)
+    b = Player(playername=a)
+    session.add(b)
+    session.commit()
 
 @dataclass
 class Player_game:
@@ -147,15 +143,15 @@ def show_button():
     button9.place(x=200, y=200, width=100, height=100)
 
 def hide_button():
-     button1.place_forget()
-     button2.place_forget()
-     button3.place_forget()
-     button4.place_forget()
-     button5.place_forget()
-     button6.place_forget()
-     button7.place_forget()
-     button8.place_forget()
-     button9.place_forget()
+    button1.place_forget()
+    button2.place_forget()
+    button3.place_forget()
+    button4.place_forget()
+    button5.place_forget()
+    button6.place_forget()
+    button7.place_forget()
+    button8.place_forget()
+    button9.place_forget()
 
 def reset_game():
     global mass
@@ -186,6 +182,9 @@ text2.bind('<Return>', change_name)
 label2 = Label(window, text="", font="Tahoma 19")
 label3 = Label(window, text="", font="Tahoma 19")
 
+"""
+Описание кнопок
+"""
 
 button1 = Button(window, text=returne_mass_count(0, 0), command=lambda: PutButton(button1, 0, 0), font="Tahoma 60")
 button2 = Button(window, text=returne_mass_count(0, 1), command=lambda: PutButton(button2, 0, 1), font="Tahoma 60")
@@ -199,21 +198,24 @@ button9 = Button(window, text=returne_mass_count(2, 2), command=lambda: PutButto
 
 show_hello()
 
-my_name = "Ольга"
+"""
+Открытие сессии
+"""
 
 session = Session()
-try:
-    user_bd = session.query(Player).filter_by(playername=my_name).one()
-except NoResultFound:
-    user_bd = creat_new_user(my_name)
 
-user_bd.wines = 2
-print(user_bd.wines)
-print(user_bd.playername)
-session.commit()
-
-session.close()
-
+# try:
+#     user_bd = session.query(Player).filter_by(playername=my_name).one()
+# except NoResultFound:
+#     user_bd = creat_new_user(my_name)
+#
+# user_bd.wines = 2
+# print(user_bd.wines)
+# print(user_bd.playername)
+#
+# session.commit()
+#
+# session.close()
 
 window.mainloop()
 
