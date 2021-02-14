@@ -21,6 +21,13 @@ base = declarative_base(bind=tt)
 ses = sessionmaker(bind=tt)
 Session = scoped_session(ses)
 
+def Return_player_of_leter(bukv):
+    if bukv == "x":
+        return player_x
+    else:
+        return player_o
+
+
 def PutButton(Obj,Stroka, Stolb):
     global step
 
@@ -41,29 +48,52 @@ def PutButton(Obj,Stroka, Stolb):
     #     csv_writer = csv.writer(f, lineterminator='\r')
     #     csv_writer.writerows(mass)
 
-
-    for i in range(2):
+    for i in range(3):
         if mass[i][0] == mass[i][1] and mass[i][0] == mass[i][2]:
-            #print("выйграл", mass[i][0])
-            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + str(mass[i][0]))
+            #print("выйграл", mass[i][0])\
+            PlayerG = Return_player_of_leter(mass[i][0]).base_player
+            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
             win_or_not.place(x=50, y=325, width=200, height=33)
             reset_game()
+            PlayerG.wines += 1
+            session.commit()
         if mass[0][i] == mass[1][i] and mass[0][i] == mass[2][i]:
-            #print("выйграл", mass[i][0])
-            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + str(mass[1][i]))
+            #print("выйграл", mass[i][0])\
+            PlayerG = Return_player_of_leter(mass[1][i]).base_player
+            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
             win_or_not.place(x=50, y=325, width=200, height=33)
             reset_game()
+            PlayerG.wines += 1
+            session.commit()
 
     if mass[0][0] == mass[1][1] and mass[0][0] == mass[2][2]:
-        #print("выйграл", mass[0][0])
-        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + str(mass[0][0]))
+        #print("выйграл", mass[0][0])\
+        PlayerG = Return_player_of_leter(mass[0][0]).base_player
+        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
         win_or_not.place(x=50, y=325, width=200, height=33)
         reset_game()
+        PlayerG.wines += 1
+        session.commit()
+
     if mass[0][2] == mass[1][1] and mass[0][2] == mass[2][0]:
-        #print("выйграл", mass[0][2])
-        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + str(mass[0][2]))
+        #print("выйграл", mass[0][2])\
+        PlayerG = Return_player_of_leter(mass[0][2]).base_player
+        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
         win_or_not.place(x=50, y=325, width=200, height=33)
         reset_game()
+        PlayerG.wines += 1
+        session.commit()
+
+    NotCifr = False
+
+    for i in mass:
+        for g in i:
+            NotCifr = str(g).isdigit()
+            if NotCifr:
+                break
+
+   if not NotCifr:
+       reset_game()
 
 def creat_table_base():
     meta = MetaData()
@@ -89,17 +119,32 @@ class Player(base):
     def __repr__(self):
         return str(self)
 
-# def creat_new_user(name):
-#     player_data = Player(playername=name)
-#     session.add(player_data)
-#     session.commit()
-#     return player_data
+def creat_new_user(name):
+    player_data = Player(playername=name)
+    session.add(player_data)
+    session.commit()
+    return player_data
 
 def change_name(event):
     a = text2.get()
-    b = Player(playername=a)
-    session.add(b)
-    session.commit()
+    try:
+        user_bd = session.query(Player).filter_by(playername=a).one()
+    except NoResultFound:
+        user_bd = creat_new_user(a)
+
+    if label2["text"] == "":
+        player_x.base_player = user_bd
+        player_x.symbol = "x"
+        label2["text"] = f"игрок x: {player_x.base_player.playername}"
+        label["text"] = "Представься o:"
+        text2.delete(0, END)
+    else:
+        player_o.base_player = user_bd
+        player_o.symbol = "o"
+        label2["text"] = f"игрок x: {player_x.base_player.playername}, игрок o: {player_o.base_player.playername}"
+        hide_hello()
+        show_button()
+
 
 @dataclass
 class Player_game:
@@ -121,15 +166,15 @@ def returne_mass_count(x, y):
 
 def show_hello():
     label.place(x=0, y=10, width=200, height=33)
-    text2.place(x=200, y=10, width=200, height=33)
-    label2.place(x=0, y=40, width=200, height=33)
-    label3.place(x=0, y=70, width=200, height=33)
+    text2.place(x=200, y=10, width=300, height=33)
+    label2.place(x=0, y=350, width=400, height=33)
+    # label3.place(x=0, y=70, width=200, height=33)
 
 def hide_hello():
     label.place_forget()
     text2.place_forget()
-    label2.place_forget()
-    label3.place_forget()
+    # label2.place_forget()
+    # label3.place_forget()
 
 def show_button():
     button1.place(x=0, y=0, width=100, height=100)
@@ -174,8 +219,11 @@ def reset_game():
 """
 Описания приветствия.
 """
-symbol_player = "x"
-label = Label(window, text=f"Представься {symbol_player}:", font="Tahoma 19")
+tt = Player()
+player_x = Player_game(tt, "")
+player_o = Player_game(tt, "")
+
+label = Label(window, text=f"Представься x:", font="Tahoma 19")
 text2 = Entry(window, font="Tahoma 20")
 text2.bind('<Return>', change_name)
 
