@@ -7,7 +7,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.exc import NoResultFound
 
-
 step = 1
 mass = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
@@ -52,47 +51,50 @@ def PutButton(Obj,Stroka, Stolb):
         if mass[i][0] == mass[i][1] and mass[i][0] == mass[i][2]:
             #print("выйграл", mass[i][0])\
             PlayerG = Return_player_of_leter(mass[i][0]).base_player
-            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
+            PlayerG.wines += 1
+            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername + " (" + str(PlayerG.wines) + ")")
             win_or_not.place(x=50, y=325, width=200, height=33)
             reset_game()
-            PlayerG.wines += 1
+
             session.commit()
         if mass[0][i] == mass[1][i] and mass[0][i] == mass[2][i]:
             #print("выйграл", mass[i][0])\
             PlayerG = Return_player_of_leter(mass[1][i]).base_player
-            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
+            PlayerG.wines += 1
+            win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername + " (" + str(PlayerG.wines) + ")")
             win_or_not.place(x=50, y=325, width=200, height=33)
             reset_game()
-            PlayerG.wines += 1
+
             session.commit()
 
     if mass[0][0] == mass[1][1] and mass[0][0] == mass[2][2]:
         #print("выйграл", mass[0][0])\
         PlayerG = Return_player_of_leter(mass[0][0]).base_player
-        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
+        PlayerG.wines += 1
+        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername + " (" + str(PlayerG.wines) + ")")
         win_or_not.place(x=50, y=325, width=200, height=33)
         reset_game()
-        PlayerG.wines += 1
+
         session.commit()
 
     if mass[0][2] == mass[1][1] and mass[0][2] == mass[2][0]:
         #print("выйграл", mass[0][2])\
         PlayerG = Return_player_of_leter(mass[0][2]).base_player
-        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername)
+        PlayerG.wines += 1
+        win_or_not = Label(window, font="Tahoma 20", text="Выйграл " + PlayerG.playername + " (" + str(PlayerG.wines) + ")")
         win_or_not.place(x=50, y=325, width=200, height=33)
         reset_game()
-        PlayerG.wines += 1
         session.commit()
 
-    NotCifr = False
+    have_cifr = False
 
     for i in mass:
         for g in i:
-            NotCifr = str(g).isdigit()
-            if NotCifr:
-                break
+            rez = str(g).isdigit()
+            if rez:
+                have_cifr = True
 
-   if not NotCifr:
+    if not have_cifr:
        reset_game()
 
 def creat_table_base():
@@ -135,13 +137,13 @@ def change_name(event):
     if label2["text"] == "":
         player_x.base_player = user_bd
         player_x.symbol = "x"
-        label2["text"] = f"игрок x: {player_x.base_player.playername}"
+        label2["text"] = f"игрок x: {player_x.base_player.playername} ({player_x.base_player.wines})"
         label["text"] = "Представься o:"
         text2.delete(0, END)
     else:
         player_o.base_player = user_bd
         player_o.symbol = "o"
-        label2["text"] = f"игрок x: {player_x.base_player.playername}, игрок o: {player_o.base_player.playername}"
+        label2["text"] = f"игрок x: {player_x.base_player.playername} ({player_x.base_player.wines}), игрок o: {player_o.base_player.playername} ({player_o.base_player.wines})"
         hide_hello()
         show_button()
 
